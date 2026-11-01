@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cln7baisy51lp"
-path="res://.godot/imported/06_berry.svg-76108482076012f771a7e8801e7bc03d.ctex"
+uid="uid://6lc7dqlwqf7m"
+path="res://.godot/imported/06_berry.svg-a13880742e2678306dd5b48f790a7d28.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/icons/06_berry.svg"
-dest_files=["res://.godot/imported/06_berry.svg-76108482076012f771a7e8801e7bc03d.ctex"]
+source_file="res://games/minigame/godot_party_default_matching_game/assets/icons/06_berry.svg"
+dest_files=["res://.godot/imported/06_berry.svg-a13880742e2678306dd5b48f790a7d28.ctex"]
 
 [params]
 

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dqdgjd34fe2nh"
-path="res://.godot/imported/01_apple.svg-948d6004f41ff86c365a9ffcd4418253.ctex"
+uid="uid://3m376g8aliod"
+path="res://.godot/imported/01_apple.svg-06c353186d601ffb254c4c96dcf4305c.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/icons/01_apple.svg"
-dest_files=["res://.godot/imported/01_apple.svg-948d6004f41ff86c365a9ffcd4418253.ctex"]
+source_file="res://games/minigame/godot_party_default_matching_game/assets/icons/01_apple.svg"
+dest_files=["res://.godot/imported/01_apple.svg-06c353186d601ffb254c4c96dcf4305c.ctex"]
 
 [params]
 

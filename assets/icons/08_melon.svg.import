@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://76k63unu0875"
-path="res://.godot/imported/08_melon.svg-9e960f696fc8262902e5576e29120af7.ctex"
+uid="uid://duisajillcu5i"
+path="res://.godot/imported/08_melon.svg-8c9fb4f8f1aa49760aac682f10b02cd8.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/icons/08_melon.svg"
-dest_files=["res://.godot/imported/08_melon.svg-9e960f696fc8262902e5576e29120af7.ctex"]
+source_file="res://games/minigame/godot_party_default_matching_game/assets/icons/08_melon.svg"
+dest_files=["res://.godot/imported/08_melon.svg-8c9fb4f8f1aa49760aac682f10b02cd8.ctex"]
 
 [params]
 

@@ -2,3 +2,6 @@
 *.tmp
 *.log
 __pycache__/
+*.TMP
+*.pyc
+/config/

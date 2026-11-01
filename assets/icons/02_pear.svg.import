@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bc20o2i5q3m65"
-path="res://.godot/imported/02_pear.svg-80dcf3af225ad339e41f78a3ca279788.ctex"
+uid="uid://bl0j24q722tjj"
+path="res://.godot/imported/02_pear.svg-a86e8de7a08b1b49258d33808b797c39.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/icons/02_pear.svg"
-dest_files=["res://.godot/imported/02_pear.svg-80dcf3af225ad339e41f78a3ca279788.ctex"]
+source_file="res://games/minigame/godot_party_default_matching_game/assets/icons/02_pear.svg"
+dest_files=["res://.godot/imported/02_pear.svg-a86e8de7a08b1b49258d33808b797c39.ctex"]
 
 [params]
 

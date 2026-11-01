@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dxblimaml80ak"
-path="res://.godot/imported/09_peach.svg-ad2096f28ab8566059396ef7f38014f0.ctex"
+uid="uid://b2kb5e3xwym3p"
+path="res://.godot/imported/09_peach.svg-fb226930ba673621cc5e070cb876d83d.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/icons/09_peach.svg"
-dest_files=["res://.godot/imported/09_peach.svg-ad2096f28ab8566059396ef7f38014f0.ctex"]
+source_file="res://games/minigame/godot_party_default_matching_game/assets/icons/09_peach.svg"
+dest_files=["res://.godot/imported/09_peach.svg-fb226930ba673621cc5e070cb876d83d.ctex"]
 
 [params]
 

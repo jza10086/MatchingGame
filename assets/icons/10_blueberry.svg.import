@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dva21gnvktpca"
-path="res://.godot/imported/10_blueberry.svg-a6b7e93c1f05abe8f3a4cf49eff58ee5.ctex"
+uid="uid://co55hg6ugtiwt"
+path="res://.godot/imported/10_blueberry.svg-ec6bed377934d0193347b72bad11ef5a.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/icons/10_blueberry.svg"
-dest_files=["res://.godot/imported/10_blueberry.svg-a6b7e93c1f05abe8f3a4cf49eff58ee5.ctex"]
+source_file="res://games/minigame/godot_party_default_matching_game/assets/icons/10_blueberry.svg"
+dest_files=["res://.godot/imported/10_blueberry.svg-ec6bed377934d0193347b72bad11ef5a.ctex"]
 
 [params]
 

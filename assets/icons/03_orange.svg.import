@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://d31mygdswq6dh"
-path="res://.godot/imported/03_orange.svg-748ed7ea2407530f0a419daf188a55d1.ctex"
+uid="uid://drv35t5hj372f"
+path="res://.godot/imported/03_orange.svg-f62ca7801abfd2f7cc5f8c0ad5d1c778.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/icons/03_orange.svg"
-dest_files=["res://.godot/imported/03_orange.svg-748ed7ea2407530f0a419daf188a55d1.ctex"]
+source_file="res://games/minigame/godot_party_default_matching_game/assets/icons/03_orange.svg"
+dest_files=["res://.godot/imported/03_orange.svg-f62ca7801abfd2f7cc5f8c0ad5d1c778.ctex"]
 
 [params]
 
