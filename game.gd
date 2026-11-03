@@ -1,7 +1,7 @@
 extends "res://games/protocols/godot_party_default_protocol/ranked_round.gd"
 ## One shared board: host serializes tile claims; only a shuffle invalidates unrelated claims.
 const Rules: Script = preload("res://games/minigame/godot_party_default_matching_game/matching_rules.gd")
-const Cursors: Script = preload("res://games/protocols/godot_party_default_protocol/player_cursors.gd")
+const Cursors: PackedScene = preload("res://games/protocols/godot_party_default_protocol/player_cursors.tscn")
 const ICONS: Array[String] = ["01_apple", "02_pear", "03_orange", "04_lemon", "05_grape", "06_berry", "07_cherry", "08_melon", "09_peach", "10_blueberry"]
 var rules: RefCounted = Rules.new()
 var scores: Dictionary = {}
@@ -52,7 +52,7 @@ func build_game() -> void:
 	effects.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	effects.draw.connect(_draw_path)
 	board_area.add_child(effects)
-	var cursors: Control = Cursors.new()
+	var cursors: Control = Cursors.instantiate()
 	cursors.setup(api)
 	board_area.add_child(cursors)
 	hint_button = button(sidebar, "提示", func() -> void: send_action({"kind": "hint", "generation": generation}))
