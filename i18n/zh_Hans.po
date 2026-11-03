@@ -1,0 +1,20 @@
+msgid ""
+msgstr ""
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: zh_Hans\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+msgid "2–8 人争抢同一棋盘；主机先收到的有效消除请求得 1 分，同分并列。"
+msgstr "2–8 人争抢同一棋盘；主机先收到的有效消除请求得 1 分，同分并列。"
+
+msgid "GodotPartyDefault · 果园连线"
+msgstr "GodotPartyDefault · 果园连线"
+
+msgid "每人提示次数"
+msgstr "每人提示次数"
+
+msgid "比赛时限（秒）"
+msgstr "比赛时限（秒）"
+
+msgid "游戏规则"
+msgstr "游戏规则"

@@ -47,5 +47,14 @@
       "audience": "instance"
     }
   },
-  "introduction": "2–8 人争抢同一棋盘；主机先收到的有效消除请求得 1 分，同分并列。"
+  "introduction": "2–8 人争抢同一棋盘；主机先收到的有效消除请求得 1 分，同分并列。",
+  "localization": {
+    "supported_locales": [
+      "zh_Hans"
+    ],
+    "fallback_locale": "zh_Hans",
+    "translations": {
+      "zh_Hans": "i18n/zh_Hans.po"
+    }
+  }
 }
