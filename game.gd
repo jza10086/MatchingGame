@@ -12,8 +12,7 @@ var selected: int = -1
 var selected_value: int = 0
 var selected_generation: int = -1
 var board_view: BoardView
-var hint_button: Button
-var notice: Label
+var controls: Label
 var last_path: Array = []
 var path_color: Color = Color.WHITE
 var claim_revision: int = 0
@@ -25,19 +24,15 @@ var board_area: Control
 var cursors: Control
 
 func build_game() -> void:
-	# Leave room for the parent game toolbar above the round HUD.
-	var layout: VBoxContainer = $Layout
-	layout.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-	layout.offset_left = 32
-	layout.offset_top = 144
-	layout.offset_right = -32
-	layout.offset_bottom = -28
-	heading.text = "连连看 · 3D 共享棋盘"
-	footer.text = "点击两个同类水果 · 最多两次转弯，可走棋盘外圈 · 每对 1 分 · 同分并列"
+	$Layout.hide()
+	add_to_group(&"party_minimal_hud")
+	mouse_filter = Control.MOUSE_FILTER_IGNORE
+	# A fixed-aspect pointer surface keeps remote cursors aligned on ultrawide screens.
+	# The 3D world still renders across the complete viewport.
 	var aspect: AspectRatioContainer = AspectRatioContainer.new()
 	aspect.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-	aspect.ratio = 1.35
-	stage.add_child(aspect)
+	aspect.ratio = 16.0 / 9.0
+	add_child(aspect)
 	board_area = Control.new()
 	board_area.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	board_area.size_flags_vertical = Control.SIZE_EXPAND_FILL
@@ -52,11 +47,22 @@ func build_game() -> void:
 	cursors.setup(api)
 	cursors.enabled = false
 	board_area.add_child(cursors)
-	hint_button = button(sidebar, "提示", func() -> void: send_action({"kind": "hint", "generation": generation}))
-	notice = label(sidebar, "无解时自动重排，不扣次数", 20)
-	notice.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	var instructions: Label = label(sidebar, "玩法\n同类水果之间用不超过三段直线连接，路径不能穿过其他棋子。\n\n单人挑战清空棋盘；多人抢先配对。", 20)
-	instructions.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	controls = Label.new()
+	controls.name = "Controls"
+	controls.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	controls.offset_left = 28
+	controls.offset_top = 28
+	controls.offset_right = -28
+	controls.offset_bottom = -28
+	controls.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
+	controls.vertical_alignment = VERTICAL_ALIGNMENT_BOTTOM
+	controls.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	controls.add_theme_font_size_override("font_size", 22)
+	controls.add_theme_color_override("font_color", Color("244b42"))
+	controls.add_theme_color_override("font_outline_color", Color("f5f2e9"))
+	controls.add_theme_constant_override("outline_size", 5)
+	add_child(controls)
+	_update_controls()
 
 ## Use the protocol's existing graphics scope on the same viewport as the HUD.
 func godot_party_graphics_targets() -> Dictionary:
@@ -66,11 +72,26 @@ func _frame_board() -> void:
 	board_view.frame_surface(board_area.get_global_rect())
 
 func _board_input(event: InputEvent) -> void:
-	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
-		var index: int = board_view.pick(board_area.get_global_transform() * event.position)
-		if index >= 0:
-			_select(index)
-		board_area.accept_event()
+	if not running or api.input.input_blocked or not event is InputEventMouseButton or not event.pressed:
+		return
+	match event.button_index:
+		MOUSE_BUTTON_LEFT:
+			var index: int = board_view.pick(board_area.get_global_transform_with_canvas() * event.position)
+			if index >= 0:
+				_select(index)
+		MOUSE_BUTTON_RIGHT:
+			selected = -1
+			render_game()
+		MOUSE_BUTTON_MIDDLE:
+			if not local_id.is_empty() and int(view.hints.get(local_id, 0)) > 0:
+				send_action({"kind": "hint", "generation": generation})
+	board_area.accept_event()
+
+func _update_controls() -> void:
+	var remaining_hints: int = 0 if view.is_empty() else int(view.hints.get(local_id, 0))
+	controls.text = "左键：选择 / 配对 · 再次点击取消\n右键：放下选中的棋子\n中键：提示（剩余 %d 次）\nEsc：菜单" % remaining_hints
+	if local_id.is_empty():
+		controls.text = "观战中\nEsc：菜单"
 
 func start_game() -> void:
 	cursors.enabled = true
@@ -81,6 +102,7 @@ func start_game() -> void:
 			hints[player.player_id] = int(settings.get("hints", 3))
 
 func tick_game(delta: float) -> void:
+	cursors.enabled = not api.input.input_blocked
 	board_view.advance(delta)
 	hint_age = maxf(0, hint_age - delta)
 	if api.is_host() and (rules.remaining == 0 or elapsed >= float(settings.get("duration", 180))):
@@ -131,15 +153,7 @@ func render_game() -> void:
 		hint_age = 0.0
 		board_view.clear_path()
 	board_view.show_board(view.board, selected, hint_cells if hint_age > 0.0 else [])
-	status.text = "剩余 %d 秒 · %d 对 · %s" % [ceili(view.time), int(view.remaining) / 2, "观战中" if local_id.is_empty() else "抢先找到可连接的水果"]
-	var lines: PackedStringArray = []
-	for player: Dictionary in players:
-		lines.append("%s  %d 对" % [player.name, view.scores.get(player.player_id, 0)])
-	standings.text = "\n".join(lines)
-	hint_button.text = "提示（%d）" % int(view.hints.get(local_id, 0))
-	hint_button.disabled = local_id.is_empty() or int(view.hints.get(local_id, 0)) <= 0
-	if changed_generation:
-		notice.text = "棋盘无解，已自动重排"
+	_update_controls()
 
 func _select(index: int) -> void:
 	if not running or local_id.is_empty() or view.is_empty() or int(view.board[index]) == 0:
@@ -159,4 +173,3 @@ func receive_private(data: Dictionary) -> void:
 	hint_cells = data.get("hint", [])
 	hint_age = 2.0
 	render_game()
-	notice.text = "提示的两个水果已标亮；其他玩家仍可抢先消除"
