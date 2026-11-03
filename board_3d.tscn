@@ -1,0 +1,39 @@
+[gd_scene format=3 uid="uid://cnw04ca5tbdtf"]
+
+[ext_resource type="Script" uid="uid://clb0a6tj7x6bu" path="res://games/minigame/godot_party_default_matching_game/board_3d.gd" id="1_lmwk3"]
+
+[sub_resource type="Environment" id="Environment_bl86d"]
+background_mode = 1
+background_color = Color(0.028, 0.055, 0.085, 1)
+ambient_light_source = 2
+ambient_light_color = Color(0.72, 0.84, 1, 1)
+ambient_light_energy = 0.65
+reflected_light_source = 2
+tonemap_mode = 2
+
+[node name="Board3D" type="Node3D" unique_id=1891827997]
+script = ExtResource("1_lmwk3")
+
+[node name="Models" type="Node3D" parent="." unique_id=119752551]
+unique_name_in_owner = true
+
+[node name="Camera" type="Camera3D" parent="." unique_id=1025029648]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 0.5144995, 0.8574907, 0, -0.8574907, 0.5144995, 0, 15, 9)
+projection = 1
+current = true
+size = 11.0
+near = 0.1
+far = 100.0
+
+[node name="World" type="WorldEnvironment" parent="." unique_id=724514744]
+unique_name_in_owner = true
+environment = SubResource("Environment_bl86d")
+
+[node name="Sun" type="DirectionalLight3D" parent="." unique_id=862142338]
+unique_name_in_owner = true
+transform = Transform3D(0.88294756, 0.36994863, -0.2890356, 0, 0.6156615, 0.7880107, 0.46947157, -0.6957722, 0.5435968, 0, 0, 0)
+light_color = Color(1, 0.9, 0.74, 1)
+light_energy = 1.4
+light_angular_distance = 0.5
+shadow_enabled = true

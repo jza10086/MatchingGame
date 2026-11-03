@@ -3,10 +3,11 @@
   "core_api_major": 4,
   "package_version": "1.0.0",
   "id": "godot_party_default_matching_game",
-  "name": "GodotPartyDefault · 果园连线",
+  "name": "GodotPartyDefault · 连连看",
   "kind": "minigame",
   "entry": "game.tscn",
   "player_counts": [
+    1,
     2,
     3,
     4,
@@ -47,7 +48,7 @@
       "audience": "instance"
     }
   },
-  "introduction": "2–8 人争抢同一棋盘；主机先收到的有效消除请求得 1 分，同分并列。",
+  "introduction": "1–8 人的 3D 连连看：点击同类水果，最多转弯两次。单人限时清盘，多人争抢同一棋盘，每对 1 分，同分并列。",
   "localization": {
     "supported_locales": [
       "zh_Hans"

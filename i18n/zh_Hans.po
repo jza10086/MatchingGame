@@ -4,11 +4,11 @@ msgstr ""
 "Language: zh_Hans\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
-msgid "2–8 人争抢同一棋盘；主机先收到的有效消除请求得 1 分，同分并列。"
-msgstr "2–8 人争抢同一棋盘；主机先收到的有效消除请求得 1 分，同分并列。"
+msgid "1–8 人的 3D 连连看：点击同类水果，最多转弯两次。单人限时清盘，多人争抢同一棋盘，每对 1 分，同分并列。"
+msgstr "1–8 人的 3D 连连看：点击同类水果，最多转弯两次。单人限时清盘，多人争抢同一棋盘，每对 1 分，同分并列。"
 
-msgid "GodotPartyDefault · 果园连线"
-msgstr "GodotPartyDefault · 果园连线"
+msgid "GodotPartyDefault · 连连看"
+msgstr "GodotPartyDefault · 连连看"
 
 msgid "每人提示次数"
 msgstr "每人提示次数"

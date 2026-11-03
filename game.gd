@@ -2,7 +2,8 @@ extends "res://games/protocols/godot_party_default_protocol/ranked_round.gd"
 ## One shared board: host serializes tile claims; only a shuffle invalidates unrelated claims.
 const Rules: Script = preload("res://games/minigame/godot_party_default_matching_game/matching_rules.gd")
 const Cursors: PackedScene = preload("res://games/protocols/godot_party_default_protocol/player_cursors.tscn")
-const ICONS: Array[String] = ["01_apple", "02_pear", "03_orange", "04_lemon", "05_grape", "06_berry", "07_cherry", "08_melon", "09_peach", "10_blueberry"]
+const BoardScene: PackedScene = preload("res://games/minigame/godot_party_default_matching_game/board_3d.tscn")
+const BoardView: Script = preload("res://games/minigame/godot_party_default_matching_game/board_3d.gd")
 var rules: RefCounted = Rules.new()
 var scores: Dictionary = {}
 var hints: Dictionary = {}
@@ -10,55 +11,69 @@ var generation: int = 0
 var selected: int = -1
 var selected_value: int = 0
 var selected_generation: int = -1
-var grid: GridContainer
-var tiles: Array[Button] = []
+var board_view: BoardView
 var hint_button: Button
 var notice: Label
 var last_path: Array = []
-var path_age: float = 0.0
 var path_color: Color = Color.WHITE
 var claim_revision: int = 0
 var rendered_claim: int = -1
+var rendered_generation: int = 0
 var hint_cells: Array = []
 var hint_age: float = 0.0
 var board_area: Control
-var effects: Control
+var cursors: Control
 
 func build_game() -> void:
-	heading.text = "果园连线 · 共享棋盘"
-	footer.text = "点击两个同类水果 · 最多两次转弯 · 主机先收到的有效配对得分 · 同分并列"
-	var center: CenterContainer = CenterContainer.new()
-	center.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-	stage.add_child(center)
+	# Leave room for the parent game toolbar above the round HUD.
+	var layout: VBoxContainer = $Layout
+	layout.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	layout.offset_left = 32
+	layout.offset_top = 144
+	layout.offset_right = -32
+	layout.offset_bottom = -28
+	heading.text = "连连看 · 3D 共享棋盘"
+	footer.text = "点击两个同类水果 · 最多两次转弯，可走棋盘外圈 · 每对 1 分 · 同分并列"
+	var aspect: AspectRatioContainer = AspectRatioContainer.new()
+	aspect.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	aspect.ratio = 1.35
+	stage.add_child(aspect)
 	board_area = Control.new()
-	board_area.custom_minimum_size = Vector2(880, 720)
-	center.add_child(board_area)
-	grid = GridContainer.new()
-	grid.columns = 10
-	grid.position = Vector2(40, 40)
-	grid.add_theme_constant_override("h_separation", 4)
-	grid.add_theme_constant_override("v_separation", 4)
-	board_area.add_child(grid)
-	for index: int in 80:
-		var tile: Button = Button.new()
-		tile.custom_minimum_size = Vector2(76, 76)
-		tile.expand_icon = true
-		tile.icon_alignment = HORIZONTAL_ALIGNMENT_CENTER
-		tile.pressed.connect(_select.bind(index))
-		grid.add_child(tile)
-		tiles.append(tile)
-	effects = Control.new()
-	effects.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-	effects.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	effects.draw.connect(_draw_path)
-	board_area.add_child(effects)
-	var cursors: Control = Cursors.instantiate()
+	board_area.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	board_area.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	aspect.add_child(board_area)
+	board_view = BoardScene.instantiate()
+	add_child(board_view)
+	board_area.gui_input.connect(_board_input)
+	board_area.resized.connect(_frame_board)
+	board_area.item_rect_changed.connect(_frame_board)
+	_frame_board.call_deferred()
+	cursors = Cursors.instantiate()
 	cursors.setup(api)
+	cursors.enabled = false
 	board_area.add_child(cursors)
 	hint_button = button(sidebar, "提示", func() -> void: send_action({"kind": "hint", "generation": generation}))
 	notice = label(sidebar, "无解时自动重排，不扣次数", 20)
+	notice.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	var instructions: Label = label(sidebar, "玩法\n同类水果之间用不超过三段直线连接，路径不能穿过其他棋子。\n\n单人挑战清空棋盘；多人抢先配对。", 20)
+	instructions.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+
+## Use the protocol's existing graphics scope on the same viewport as the HUD.
+func godot_party_graphics_targets() -> Dictionary:
+	return {"world": board_view.world, "sun": board_view.sun, "materials_root": board_view.models}
+
+func _frame_board() -> void:
+	board_view.frame_surface(board_area.get_global_rect())
+
+func _board_input(event: InputEvent) -> void:
+	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
+		var index: int = board_view.pick(board_area.get_global_transform() * event.position)
+		if index >= 0:
+			_select(index)
+		board_area.accept_event()
 
 func start_game() -> void:
+	cursors.enabled = true
 	if api.is_host():
 		rules.start(api.get_seed())
 		for player: Dictionary in players:
@@ -66,9 +81,8 @@ func start_game() -> void:
 			hints[player.player_id] = int(settings.get("hints", 3))
 
 func tick_game(delta: float) -> void:
-	path_age = maxf(0, path_age - delta)
+	board_view.advance(delta)
 	hint_age = maxf(0, hint_age - delta)
-	effects.queue_redraw()
 	if api.is_host() and (rules.remaining == 0 or elapsed >= float(settings.get("duration", 180))):
 		finish_scores(scores, {}, [{"key": "score", "title": "消除对数", "format": "integer"}])
 
@@ -102,20 +116,21 @@ func make_snapshot() -> Dictionary:
 func render_game() -> void:
 	if view.is_empty():
 		return
-	var changed_generation: bool = generation != int(view.generation)
+	var changed_generation: bool = rendered_generation != int(view.generation)
 	generation = view.generation
+	rendered_generation = generation
 	if changed_generation or (selected >= 0 and (view.board[selected] == 0 or int(view.board[selected]) != selected_value)):
 		selected = -1
 	if int(view.claim) != rendered_claim:
 		rendered_claim = view.claim
 		last_path = view.path
 		path_color = view.color
-		path_age = 0.65
-	for index: int in tiles.size():
-		var value: int = view.board[index]
-		tiles[index].icon = load("res://games/minigame/godot_party_default_matching_game/assets/icons/" + ICONS[value - 1] + ".svg") if value > 0 else null
-		tiles[index].disabled = value == 0 or local_id.is_empty()
-		tiles[index].modulate = Color("#9ce6ba") if index == selected else (Color("#ffe28a") if hint_age > 0 and Vector2i(index % 10, index / 10) in hint_cells else Color.WHITE)
+		board_view.show_path(last_path, path_color)
+	if changed_generation:
+		hint_cells.clear()
+		hint_age = 0.0
+		board_view.clear_path()
+	board_view.show_board(view.board, selected, hint_cells if hint_age > 0.0 else [])
 	status.text = "剩余 %d 秒 · %d 对 · %s" % [ceili(view.time), int(view.remaining) / 2, "观战中" if local_id.is_empty() else "抢先找到可连接的水果"]
 	var lines: PackedStringArray = []
 	for player: Dictionary in players:
@@ -127,7 +142,7 @@ func render_game() -> void:
 		notice.text = "棋盘无解，已自动重排"
 
 func _select(index: int) -> void:
-	if not running or view.is_empty():
+	if not running or local_id.is_empty() or view.is_empty() or int(view.board[index]) == 0:
 		return
 	if selected < 0 or selected == index:
 		selected = index if selected != index else -1
@@ -143,14 +158,5 @@ func receive_private(data: Dictionary) -> void:
 		return
 	hint_cells = data.get("hint", [])
 	hint_age = 2.0
-	for cell: Vector2i in hint_cells:
-		tiles[cell.y * 10 + cell.x].modulate = Color("#ffe28a")
+	render_game()
 	notice.text = "提示的两个水果已标亮；其他玩家仍可抢先消除"
-
-func _draw_path() -> void:
-	if path_age <= 0 or last_path.size() < 2:
-		return
-	var points: PackedVector2Array = []
-	for cell: Vector2i in last_path:
-		points.append(Vector2(78, 78) + Vector2(cell) * 80)
-	effects.draw_polyline(points, Color(path_color, path_age / 0.65), 5, true)
