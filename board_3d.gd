@@ -8,7 +8,7 @@ var textures: Array[Texture2D] = []
 var values: Array[int] = []
 var motions: Dictionary[int, Tween] = {}
 var materials: Dictionary[String, StandardMaterial3D] = {}
-var path_nodes: Node3D
+@onready var path_nodes: Node3D = %Connection
 var path_time: float = 0.0
 @onready var camera: Camera3D = %Camera
 @onready var models: Node3D = %Models
@@ -16,23 +16,12 @@ var path_time: float = 0.0
 @onready var sun: DirectionalLight3D = %Sun
 
 func _ready() -> void:
-	_box(models, Vector3(0, -0.55, 0), Vector3(200, 0.2, 200), _material(Color("d9e1d4")))
-	_box(models, Vector3(0, -0.24, 0), Vector3(12.6, 0.36, 10.6), _material(Color("b69a72")))
-	_box(models, Vector3(0, -0.04, 0), Vector3(12.3, 0.08, 10.3), _material(Color("566e5b")))
 	for icon: String in ICONS:
 		textures.append(load("res://games/minigame/godot_party_default_matching_game/assets/icons/" + icon + ".svg"))
-	for index: int in 80:
-		var tile: Node3D = Piece.new()
-		tile.name = "Tile%02d" % index
-		tile.position = cell_position(Vector2i(index % 10, index / 10))
-		tile.position.y = Piece.REST_HEIGHT
-		models.add_child(tile)
-		tiles.append(tile)
+	tiles.assign(%Tiles.get_children())
+	values.resize(tiles.size())
+	for tile: Node3D in tiles:
 		tile.hide()
-		values.append(0)
-	path_nodes = Node3D.new()
-	path_nodes.name = "Connection"
-	models.add_child(path_nodes)
 
 func cell_position(cell: Vector2i) -> Vector3:
 	return Vector3(float(cell.x) - 4.5, 0, float(cell.y) - 3.5)
@@ -133,11 +122,6 @@ func _mesh(parent: Node3D, shape: Mesh, position_value: Vector3, material: Stand
 	instance.material_override = material
 	parent.add_child(instance)
 	return instance
-
-func _box(parent: Node3D, point: Vector3, dimensions: Vector3, material: StandardMaterial3D) -> MeshInstance3D:
-	var shape: BoxMesh = BoxMesh.new()
-	shape.size = dimensions
-	return _mesh(parent, shape, point, material)
 
 func _sphere(parent: Node3D, point: Vector3, dimensions: Vector3, material: StandardMaterial3D) -> MeshInstance3D:
 	var shape: SphereMesh = SphereMesh.new()

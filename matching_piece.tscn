@@ -1,0 +1,31 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://games/minigame/godot_party_default_matching_game/matching_piece.gd" id="script"]
+
+[sub_resource type="StandardMaterial3D" id="Ivory"]
+resource_local_to_scene = true
+albedo_color = Color(0.933, 0.894, 0.796, 1)
+roughness = 0.72
+
+[sub_resource type="StandardMaterial3D" id="Artwork"]
+resource_local_to_scene = true
+transparency = 2
+roughness = 0.9
+
+[sub_resource type="BoxMesh" id="BodyMesh"]
+size = Vector3(0.94, 0.14, 0.94)
+
+[sub_resource type="PlaneMesh" id="FaceMesh"]
+size = Vector2(0.8, 0.8)
+
+[node name="Piece" type="Node3D"]
+script = ExtResource("script")
+
+[node name="Body" type="MeshInstance3D" parent="."]
+mesh = SubResource("BodyMesh")
+material_override = SubResource("Ivory")
+
+[node name="Face" type="MeshInstance3D" parent="."]
+position = Vector3(0, 0.072, 0)
+mesh = SubResource("FaceMesh")
+material_override = SubResource("Artwork")

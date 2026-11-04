@@ -2,7 +2,6 @@ extends "res://games/protocols/godot_party_default_protocol/ranked_round.gd"
 ## One shared board: host serializes tile claims; only a shuffle invalidates unrelated claims.
 const Rules: Script = preload("res://games/minigame/godot_party_default_matching_game/matching_rules.gd")
 const Cursors: PackedScene = preload("res://games/protocols/godot_party_default_protocol/player_cursors.tscn")
-const BoardScene: PackedScene = preload("res://games/minigame/godot_party_default_matching_game/board_3d.tscn")
 const BoardView: Script = preload("res://games/minigame/godot_party_default_matching_game/board_3d.gd")
 var rules: RefCounted = Rules.new()
 var scores: Dictionary = {}
@@ -11,8 +10,8 @@ var generation: int = 0
 var selected: int = -1
 var selected_value: int = 0
 var selected_generation: int = -1
-var board_view: BoardView
-var controls: Label
+@onready var board_view: BoardView = %Board
+@onready var controls: Label = %Controls
 var last_path: Array = []
 var path_color: Color = Color.WHITE
 var claim_revision: int = 0
@@ -20,25 +19,10 @@ var rendered_claim: int = -1
 var rendered_generation: int = 0
 var hint_cells: Array = []
 var hint_age: float = 0.0
-var board_area: Control
+@onready var board_area: Control = %BoardArea
 var cursors: Control
 
 func build_game() -> void:
-	$Layout.hide()
-	add_to_group(&"party_minimal_hud")
-	mouse_filter = Control.MOUSE_FILTER_IGNORE
-	# A fixed-aspect pointer surface keeps remote cursors aligned on ultrawide screens.
-	# The 3D world still renders across the complete viewport.
-	var aspect: AspectRatioContainer = AspectRatioContainer.new()
-	aspect.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-	aspect.ratio = 16.0 / 9.0
-	add_child(aspect)
-	board_area = Control.new()
-	board_area.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	board_area.size_flags_vertical = Control.SIZE_EXPAND_FILL
-	aspect.add_child(board_area)
-	board_view = BoardScene.instantiate()
-	add_child(board_view)
 	board_area.gui_input.connect(_board_input)
 	board_area.resized.connect(_frame_board)
 	board_area.item_rect_changed.connect(_frame_board)
@@ -47,21 +31,6 @@ func build_game() -> void:
 	cursors.setup(api)
 	cursors.enabled = false
 	board_area.add_child(cursors)
-	controls = Label.new()
-	controls.name = "Controls"
-	controls.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-	controls.offset_left = 28
-	controls.offset_top = 28
-	controls.offset_right = -28
-	controls.offset_bottom = -28
-	controls.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
-	controls.vertical_alignment = VERTICAL_ALIGNMENT_BOTTOM
-	controls.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	controls.add_theme_font_size_override("font_size", 22)
-	controls.add_theme_color_override("font_color", Color("244b42"))
-	controls.add_theme_color_override("font_outline_color", Color("f5f2e9"))
-	controls.add_theme_constant_override("outline_size", 5)
-	add_child(controls)
 	_update_controls()
 
 ## Use the protocol's existing graphics scope on the same viewport as the HUD.
@@ -89,7 +58,7 @@ func _board_input(event: InputEvent) -> void:
 
 func _update_controls() -> void:
 	var remaining_hints: int = 0 if view.is_empty() else int(view.hints.get(local_id, 0))
-	controls.text = "左键：选择 / 配对 · 再次点击取消\n右键：放下选中的棋子\n中键：提示（剩余 %d 次）\nEsc：菜单" % remaining_hints
+	controls.text = api.i18n.text(&"hud.controls", {"hints": remaining_hints})
 	if local_id.is_empty():
 		controls.text = "观战中\nEsc：菜单"
 

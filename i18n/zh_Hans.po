@@ -18,3 +18,6 @@ msgstr "比赛时限（秒）"
 
 msgid "游戏规则"
 msgstr "游戏规则"
+
+msgid "hud.controls"
+msgstr "左键：选择 / 配对 · 再次点击取消\n右键：放下选中的棋子\n中键：提示（剩余 {hints} 次）\nEsc：菜单"

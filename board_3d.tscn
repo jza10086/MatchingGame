@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://cnw04ca5tbdtf"]
 
 [ext_resource type="Script" uid="uid://clb0a6tj7x6bu" path="res://games/minigame/godot_party_default_matching_game/board_3d.gd" id="1_lmwk3"]
+[ext_resource type="PackedScene" path="res://games/minigame/godot_party_default_matching_game/matching_piece.tscn" id="piece"]
 
 [sub_resource type="Environment" id="Environment_bl86d"]
 background_mode = 1
@@ -9,6 +10,31 @@ ambient_light_source = 2
 ambient_light_color = Color(1, 0.9569, 0.8627, 1)
 ambient_light_energy = 0.25
 reflected_light_source = 2
+
+[sub_resource type="StandardMaterial3D" id="FloorMaterial"]
+albedo_color = Color(0.8509803921568627,0.8823529411764706,0.8313725490196079,1)
+roughness = 0.38
+
+[sub_resource type="BoxMesh" id="FloorMesh"]
+material = SubResource("FloorMaterial")
+size = Vector3(200,0.2,200)
+
+[sub_resource type="StandardMaterial3D" id="BaseMaterial"]
+albedo_color = Color(0.7137254901960784,0.6039215686274509,0.4470588235294118,1)
+roughness = 0.38
+
+[sub_resource type="BoxMesh" id="BaseMesh"]
+material = SubResource("BaseMaterial")
+size = Vector3(12.6,0.36,10.6)
+
+[sub_resource type="StandardMaterial3D" id="SurfaceMaterial"]
+albedo_color = Color(0.33725490196078434,0.43137254901960786,0.3568627450980392,1)
+roughness = 0.38
+
+[sub_resource type="BoxMesh" id="SurfaceMesh"]
+material = SubResource("SurfaceMaterial")
+size = Vector3(12.3,0.08,10.3)
+
 
 [node name="Board3D" type="Node3D" unique_id=1891827997]
 script = ExtResource("1_lmwk3")
@@ -36,3 +62,263 @@ light_color = Color(1, 0.9, 0.74, 1)
 light_energy = 0.35
 light_angular_distance = 0.5
 shadow_enabled = true
+
+[node name="Floor" type="MeshInstance3D" parent="Models"]
+mesh = SubResource("FloorMesh")
+position = Vector3(0,-0.55,0)
+
+[node name="Base" type="MeshInstance3D" parent="Models"]
+mesh = SubResource("BaseMesh")
+position = Vector3(0,-0.24,0)
+
+[node name="Surface" type="MeshInstance3D" parent="Models"]
+mesh = SubResource("SurfaceMesh")
+position = Vector3(0,-0.04,0)
+
+[node name="Tiles" type="Node3D" parent="Models"]
+unique_name_in_owner = true
+
+
+[node name="Connection" type="Node3D" parent="Models"]
+unique_name_in_owner = true
+
+
+[node name="Tile00" parent="Models/Tiles" instance=ExtResource("piece")]
+position = Vector3(-4.5,0.09,-3.5)
+
+[node name="Tile01" parent="Models/Tiles" instance=ExtResource("piece")]
+position = Vector3(-3.5,0.09,-3.5)
+
+[node name="Tile02" parent="Models/Tiles" instance=ExtResource("piece")]
+position = Vector3(-2.5,0.09,-3.5)
+
+[node name="Tile03" parent="Models/Tiles" instance=ExtResource("piece")]
+position = Vector3(-1.5,0.09,-3.5)
+
+[node name="Tile04" parent="Models/Tiles" instance=ExtResource("piece")]
+position = Vector3(-0.5,0.09,-3.5)
+
+[node name="Tile05" parent="Models/Tiles" instance=ExtResource("piece")]
+position = Vector3(0.5,0.09,-3.5)
+
+[node name="Tile06" parent="Models/Tiles" instance=ExtResource("piece")]
+position = Vector3(1.5,0.09,-3.5)
+
+[node name="Tile07" parent="Models/Tiles" instance=ExtResource("piece")]
+position = Vector3(2.5,0.09,-3.5)
+
+[node name="Tile08" parent="Models/Tiles" instance=ExtResource("piece")]
+position = Vector3(3.5,0.09,-3.5)
+
+[node name="Tile09" parent="Models/Tiles" instance=ExtResource("piece")]
+position = Vector3(4.5,0.09,-3.5)
+
+[node name="Tile10" parent="Models/Tiles" instance=ExtResource("piece")]
+position = Vector3(-4.5,0.09,-2.5)
+
+[node name="Tile11" parent="Models/Tiles" instance=ExtResource("piece")]
+position = Vector3(-3.5,0.09,-2.5)
+
+[node name="Tile12" parent="Models/Tiles" instance=ExtResource("piece")]
+position = Vector3(-2.5,0.09,-2.5)
+
+[node name="Tile13" parent="Models/Tiles" instance=ExtResource("piece")]
+position = Vector3(-1.5,0.09,-2.5)
+
+[node name="Tile14" parent="Models/Tiles" instance=ExtResource("piece")]
+position = Vector3(-0.5,0.09,-2.5)
+
+[node name="Tile15" parent="Models/Tiles" instance=ExtResource("piece")]
+position = Vector3(0.5,0.09,-2.5)
+
+[node name="Tile16" parent="Models/Tiles" instance=ExtResource("piece")]
+position = Vector3(1.5,0.09,-2.5)
+
+[node name="Tile17" parent="Models/Tiles" instance=ExtResource("piece")]
+position = Vector3(2.5,0.09,-2.5)
+
+[node name="Tile18" parent="Models/Tiles" instance=ExtResource("piece")]
+position = Vector3(3.5,0.09,-2.5)
+
+[node name="Tile19" parent="Models/Tiles" instance=ExtResource("piece")]
+position = Vector3(4.5,0.09,-2.5)
+
+[node name="Tile20" parent="Models/Tiles" instance=ExtResource("piece")]
+position = Vector3(-4.5,0.09,-1.5)
+
+[node name="Tile21" parent="Models/Tiles" instance=ExtResource("piece")]
+position = Vector3(-3.5,0.09,-1.5)
+
+[node name="Tile22" parent="Models/Tiles" instance=ExtResource("piece")]
+position = Vector3(-2.5,0.09,-1.5)
+
+[node name="Tile23" parent="Models/Tiles" instance=ExtResource("piece")]
+position = Vector3(-1.5,0.09,-1.5)
+
+[node name="Tile24" parent="Models/Tiles" instance=ExtResource("piece")]
+position = Vector3(-0.5,0.09,-1.5)
+
+[node name="Tile25" parent="Models/Tiles" instance=ExtResource("piece")]
+position = Vector3(0.5,0.09,-1.5)
+
+[node name="Tile26" parent="Models/Tiles" instance=ExtResource("piece")]
+position = Vector3(1.5,0.09,-1.5)
+
+[node name="Tile27" parent="Models/Tiles" instance=ExtResource("piece")]
+position = Vector3(2.5,0.09,-1.5)
+
+[node name="Tile28" parent="Models/Tiles" instance=ExtResource("piece")]
+position = Vector3(3.5,0.09,-1.5)
+
+[node name="Tile29" parent="Models/Tiles" instance=ExtResource("piece")]
+position = Vector3(4.5,0.09,-1.5)
+
+[node name="Tile30" parent="Models/Tiles" instance=ExtResource("piece")]
+position = Vector3(-4.5,0.09,-0.5)
+
+[node name="Tile31" parent="Models/Tiles" instance=ExtResource("piece")]
+position = Vector3(-3.5,0.09,-0.5)
+
+[node name="Tile32" parent="Models/Tiles" instance=ExtResource("piece")]
+position = Vector3(-2.5,0.09,-0.5)
+
+[node name="Tile33" parent="Models/Tiles" instance=ExtResource("piece")]
+position = Vector3(-1.5,0.09,-0.5)
+
+[node name="Tile34" parent="Models/Tiles" instance=ExtResource("piece")]
+position = Vector3(-0.5,0.09,-0.5)
+
+[node name="Tile35" parent="Models/Tiles" instance=ExtResource("piece")]
+position = Vector3(0.5,0.09,-0.5)
+
+[node name="Tile36" parent="Models/Tiles" instance=ExtResource("piece")]
+position = Vector3(1.5,0.09,-0.5)
+
+[node name="Tile37" parent="Models/Tiles" instance=ExtResource("piece")]
+position = Vector3(2.5,0.09,-0.5)
+
+[node name="Tile38" parent="Models/Tiles" instance=ExtResource("piece")]
+position = Vector3(3.5,0.09,-0.5)
+
+[node name="Tile39" parent="Models/Tiles" instance=ExtResource("piece")]
+position = Vector3(4.5,0.09,-0.5)
+
+[node name="Tile40" parent="Models/Tiles" instance=ExtResource("piece")]
+position = Vector3(-4.5,0.09,0.5)
+
+[node name="Tile41" parent="Models/Tiles" instance=ExtResource("piece")]
+position = Vector3(-3.5,0.09,0.5)
+
+[node name="Tile42" parent="Models/Tiles" instance=ExtResource("piece")]
+position = Vector3(-2.5,0.09,0.5)
+
+[node name="Tile43" parent="Models/Tiles" instance=ExtResource("piece")]
+position = Vector3(-1.5,0.09,0.5)
+
+[node name="Tile44" parent="Models/Tiles" instance=ExtResource("piece")]
+position = Vector3(-0.5,0.09,0.5)
+
+[node name="Tile45" parent="Models/Tiles" instance=ExtResource("piece")]
+position = Vector3(0.5,0.09,0.5)
+
+[node name="Tile46" parent="Models/Tiles" instance=ExtResource("piece")]
+position = Vector3(1.5,0.09,0.5)
+
+[node name="Tile47" parent="Models/Tiles" instance=ExtResource("piece")]
+position = Vector3(2.5,0.09,0.5)
+
+[node name="Tile48" parent="Models/Tiles" instance=ExtResource("piece")]
+position = Vector3(3.5,0.09,0.5)
+
+[node name="Tile49" parent="Models/Tiles" instance=ExtResource("piece")]
+position = Vector3(4.5,0.09,0.5)
+
+[node name="Tile50" parent="Models/Tiles" instance=ExtResource("piece")]
+position = Vector3(-4.5,0.09,1.5)
+
+[node name="Tile51" parent="Models/Tiles" instance=ExtResource("piece")]
+position = Vector3(-3.5,0.09,1.5)
+
+[node name="Tile52" parent="Models/Tiles" instance=ExtResource("piece")]
+position = Vector3(-2.5,0.09,1.5)
+
+[node name="Tile53" parent="Models/Tiles" instance=ExtResource("piece")]
+position = Vector3(-1.5,0.09,1.5)
+
+[node name="Tile54" parent="Models/Tiles" instance=ExtResource("piece")]
+position = Vector3(-0.5,0.09,1.5)
+
+[node name="Tile55" parent="Models/Tiles" instance=ExtResource("piece")]
+position = Vector3(0.5,0.09,1.5)
+
+[node name="Tile56" parent="Models/Tiles" instance=ExtResource("piece")]
+position = Vector3(1.5,0.09,1.5)
+
+[node name="Tile57" parent="Models/Tiles" instance=ExtResource("piece")]
+position = Vector3(2.5,0.09,1.5)
+
+[node name="Tile58" parent="Models/Tiles" instance=ExtResource("piece")]
+position = Vector3(3.5,0.09,1.5)
+
+[node name="Tile59" parent="Models/Tiles" instance=ExtResource("piece")]
+position = Vector3(4.5,0.09,1.5)
+
+[node name="Tile60" parent="Models/Tiles" instance=ExtResource("piece")]
+position = Vector3(-4.5,0.09,2.5)
+
+[node name="Tile61" parent="Models/Tiles" instance=ExtResource("piece")]
+position = Vector3(-3.5,0.09,2.5)
+
+[node name="Tile62" parent="Models/Tiles" instance=ExtResource("piece")]
+position = Vector3(-2.5,0.09,2.5)
+
+[node name="Tile63" parent="Models/Tiles" instance=ExtResource("piece")]
+position = Vector3(-1.5,0.09,2.5)
+
+[node name="Tile64" parent="Models/Tiles" instance=ExtResource("piece")]
+position = Vector3(-0.5,0.09,2.5)
+
+[node name="Tile65" parent="Models/Tiles" instance=ExtResource("piece")]
+position = Vector3(0.5,0.09,2.5)
+
+[node name="Tile66" parent="Models/Tiles" instance=ExtResource("piece")]
+position = Vector3(1.5,0.09,2.5)
+
+[node name="Tile67" parent="Models/Tiles" instance=ExtResource("piece")]
+position = Vector3(2.5,0.09,2.5)
+
+[node name="Tile68" parent="Models/Tiles" instance=ExtResource("piece")]
+position = Vector3(3.5,0.09,2.5)
+
+[node name="Tile69" parent="Models/Tiles" instance=ExtResource("piece")]
+position = Vector3(4.5,0.09,2.5)
+
+[node name="Tile70" parent="Models/Tiles" instance=ExtResource("piece")]
+position = Vector3(-4.5,0.09,3.5)
+
+[node name="Tile71" parent="Models/Tiles" instance=ExtResource("piece")]
+position = Vector3(-3.5,0.09,3.5)
+
+[node name="Tile72" parent="Models/Tiles" instance=ExtResource("piece")]
+position = Vector3(-2.5,0.09,3.5)
+
+[node name="Tile73" parent="Models/Tiles" instance=ExtResource("piece")]
+position = Vector3(-1.5,0.09,3.5)
+
+[node name="Tile74" parent="Models/Tiles" instance=ExtResource("piece")]
+position = Vector3(-0.5,0.09,3.5)
+
+[node name="Tile75" parent="Models/Tiles" instance=ExtResource("piece")]
+position = Vector3(0.5,0.09,3.5)
+
+[node name="Tile76" parent="Models/Tiles" instance=ExtResource("piece")]
+position = Vector3(1.5,0.09,3.5)
+
+[node name="Tile77" parent="Models/Tiles" instance=ExtResource("piece")]
+position = Vector3(2.5,0.09,3.5)
+
+[node name="Tile78" parent="Models/Tiles" instance=ExtResource("piece")]
+position = Vector3(3.5,0.09,3.5)
+
+[node name="Tile79" parent="Models/Tiles" instance=ExtResource("piece")]
+position = Vector3(4.5,0.09,3.5)
