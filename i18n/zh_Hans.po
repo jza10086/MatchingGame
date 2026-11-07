@@ -21,3 +21,12 @@ msgstr "游戏规则"
 
 msgid "hud.controls"
 msgstr "左键：选择 / 配对 · 再次点击取消\n右键：放下选中的棋子\n中键：提示（剩余 {hints} 次）\nEsc：菜单"
+
+msgid "hud.spectating"
+msgstr "观战中\nEsc：菜单"
+
+msgid "result.pairs"
+msgstr "消除对数"
+
+msgid "error.hint_send"
+msgstr "发送私密提示失败：{error}"

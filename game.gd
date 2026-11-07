@@ -60,7 +60,7 @@ func _update_controls() -> void:
 	var remaining_hints: int = 0 if view.is_empty() else int(view.hints.get(local_id, 0))
 	controls.text = api.i18n.text(&"hud.controls", {"hints": remaining_hints})
 	if local_id.is_empty():
-		controls.text = "观战中\nEsc：菜单"
+		controls.text = api.i18n.text(&"hud.spectating")
 
 func start_game() -> void:
 	cursors.enabled = true
@@ -75,14 +75,23 @@ func tick_game(delta: float) -> void:
 	board_view.advance(delta)
 	hint_age = maxf(0, hint_age - delta)
 	if api.is_host() and (rules.remaining == 0 or elapsed >= float(settings.get("duration", 180))):
-		finish_scores(scores, {}, [{"key": "score", "title": "消除对数", "format": "integer"}])
+		finish_scores(scores, {}, [{"key": "score", "title": api.i18n.text(&"result.pairs"), "format": "integer"}])
 
 func handle_action(id: String, data: Dictionary) -> void:
 	if int(data.get("generation", -1)) != generation:
 		return
 	if data.get("kind") == "hint" and int(hints[id]) > 0:
+		var send_error: Error = api.net.send_to_player(id, &"private_view", {"hint": rules.get_hint(), "generation": generation})
+		if send_error != OK:
+			# A rejected send must neither consume a hint nor leave the round accepting actions.
+			party_stop(&"hint_send_failed")
+			cursors.enabled = false
+			var message: String = api.i18n.text(&"error.hint_send", {"error": error_string(send_error)})
+			var fail_error: Error = api.fail("hint_send_failed", message)
+			if fail_error != OK:
+				push_error("%s (%s)" % [message, error_string(fail_error)])
+			return
 		hints[id] -= 1
-		api.net.send_to_player(id, &"private_view", {"hint": rules.get_hint(), "generation": generation})
 	elif data.get("kind") == "pair":
 		if not data.get("a") is int or not data.get("b") is int or not data.get("value") is int:
 			return
