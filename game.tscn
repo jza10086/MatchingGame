@@ -1,9 +1,9 @@
 [gd_scene format=3 uid="uid://b0npp1fpk87mg"]
 
-[ext_resource type="Script" uid="uid://df7y3ytjk2jwo" path="res://games/minigame/godot_party_default_matching_game/game.gd" id="1"]
+[ext_resource type="Script" uid="uid://df7y3ytjk2jwo" path="res://games/minigame/gp_matching/game.gd" id="1"]
 [ext_resource type="PackedScene" path="res://games/protocols/godot_party_default_protocol/ranked_round.tscn" id="round"]
 
-[ext_resource type="PackedScene" path="res://games/minigame/godot_party_default_matching_game/board_3d.tscn" id="board"]
+[ext_resource type="PackedScene" path="res://games/minigame/gp_matching/board_3d.tscn" id="board"]
 
 [node name="Game" unique_id=1945190554 instance=ExtResource("round")]
 layout_mode = 3

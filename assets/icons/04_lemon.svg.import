@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://cwja6pb60j1oa"
-path="res://.godot/imported/04_lemon.svg-e9976ffb407c02057f5017cdc41ed5db.ctex"
+path="res://.godot/imported/04_lemon.svg-b75a7ee524d9ba214a83fa80142e40fe.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://games/minigame/godot_party_default_matching_game/assets/icons/04_lemon.svg"
-dest_files=["res://.godot/imported/04_lemon.svg-e9976ffb407c02057f5017cdc41ed5db.ctex"]
+source_file="res://games/minigame/gp_matching/assets/icons/04_lemon.svg"
+dest_files=["res://.godot/imported/04_lemon.svg-b75a7ee524d9ba214a83fa80142e40fe.ctex"]
 
 [params]
 

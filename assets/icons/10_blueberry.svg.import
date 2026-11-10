@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://co55hg6ugtiwt"
-path="res://.godot/imported/10_blueberry.svg-ec6bed377934d0193347b72bad11ef5a.ctex"
+path="res://.godot/imported/10_blueberry.svg-40ef5c95d51eb26247ccf30de59bea71.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://games/minigame/godot_party_default_matching_game/assets/icons/10_blueberry.svg"
-dest_files=["res://.godot/imported/10_blueberry.svg-ec6bed377934d0193347b72bad11ef5a.ctex"]
+source_file="res://games/minigame/gp_matching/assets/icons/10_blueberry.svg"
+dest_files=["res://.godot/imported/10_blueberry.svg-40ef5c95d51eb26247ccf30de59bea71.ctex"]
 
 [params]
 

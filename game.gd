@@ -1,8 +1,8 @@
 extends "res://games/protocols/godot_party_default_protocol/ranked_round.gd"
 ## One shared board: host serializes tile claims; only a shuffle invalidates unrelated claims.
-const Rules: Script = preload("res://games/minigame/godot_party_default_matching_game/matching_rules.gd")
+const Rules: Script = preload("res://games/minigame/gp_matching/matching_rules.gd")
 const Cursors: PackedScene = preload("res://games/protocols/godot_party_default_protocol/player_cursors.tscn")
-const BoardView: Script = preload("res://games/minigame/godot_party_default_matching_game/board_3d.gd")
+const BoardView: Script = preload("res://games/minigame/gp_matching/board_3d.gd")
 var rules: RefCounted = Rules.new()
 var scores: Dictionary = {}
 var hints: Dictionary = {}

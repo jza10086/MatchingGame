@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://v17j5sfp6idu"
-path="res://.godot/imported/05_grape.svg-88b2179a21b14a20a32fe73b9806a184.ctex"
+path="res://.godot/imported/05_grape.svg-b2c99f767b947033db0fe762b5ab880f.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://games/minigame/godot_party_default_matching_game/assets/icons/05_grape.svg"
-dest_files=["res://.godot/imported/05_grape.svg-88b2179a21b14a20a32fe73b9806a184.ctex"]
+source_file="res://games/minigame/gp_matching/assets/icons/05_grape.svg"
+dest_files=["res://.godot/imported/05_grape.svg-b2c99f767b947033db0fe762b5ab880f.ctex"]
 
 [params]
 

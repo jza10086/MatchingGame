@@ -1,7 +1,7 @@
 extends Node3D
 ## Presentation only: the host's 2D cell indices remain the gameplay contract.
 ## Perspective framing keeps the complete playable area and outside route ring in view.
-const Piece: Script = preload("res://games/minigame/godot_party_default_matching_game/matching_piece.gd")
+const Piece: Script = preload("res://games/minigame/gp_matching/matching_piece.gd")
 const ICONS: Array[String] = ["01_apple", "02_pear", "03_orange", "04_lemon", "05_grape", "06_berry", "07_cherry", "08_melon", "09_peach", "10_blueberry"]
 var tiles: Array[Node3D] = []
 var textures: Array[Texture2D] = []
@@ -17,7 +17,7 @@ var path_time: float = 0.0
 
 func _ready() -> void:
 	for icon: String in ICONS:
-		textures.append(load("res://games/minigame/godot_party_default_matching_game/assets/icons/" + icon + ".svg"))
+		textures.append(load("res://games/minigame/gp_matching/assets/icons/" + icon + ".svg"))
 	tiles.assign(%Tiles.get_children())
 	values.resize(tiles.size())
 	for tile: Node3D in tiles:
