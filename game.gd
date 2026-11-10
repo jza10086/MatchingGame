@@ -7,6 +7,7 @@ var rules: RefCounted = Rules.new()
 var scores: Dictionary = {}
 var hints: Dictionary = {}
 var generation: int = 0
+var end_msec: int = 0
 var selected: int = -1
 var selected_value: int = 0
 var selected_generation: int = -1
@@ -66,6 +67,7 @@ func start_game() -> void:
 	cursors.enabled = true
 	if api.is_host():
 		rules.start(api.get_seed())
+		end_msec = api.net.host_time_msec() + roundi(float(settings.get("duration", 180)) * 1000.0)
 		for player: Dictionary in players:
 			scores[player.player_id] = 0
 			hints[player.player_id] = int(settings.get("hints", 3))
@@ -92,6 +94,7 @@ func handle_action(id: String, data: Dictionary) -> void:
 				push_error("%s (%s)" % [message, error_string(fail_error)])
 			return
 		hints[id] -= 1
+		_send_change({"kind": "hint", "id": id, "hints": hints[id]})
 	elif data.get("kind") == "pair":
 		if not data.get("a") is int or not data.get("b") is int or not data.get("value") is int:
 			return
@@ -105,13 +108,17 @@ func handle_action(id: String, data: Dictionary) -> void:
 			claim_revision += 1
 			last_path = result.path
 			path_color = player_color(id)
+			var changed: Dictionary = {"kind": "pair", "id": id, "score": scores[id], "cells": [a, b],
+				"path": last_path, "color": path_color, "claim": claim_revision, "remaining": rules.remaining}
 			if rules.remaining > 0 and rules.get_hint().is_empty():
 				rules.shuffle_board()
 				generation += 1
-			publish()
+				changed["board"] = rules.board.duplicate()
+			changed["generation"] = generation
+			_send_change(changed)
 
 func make_snapshot() -> Dictionary:
-	return {"board": rules.board.duplicate(), "scores": scores.duplicate(), "hints": hints.duplicate(), "generation": generation, "remaining": rules.remaining, "time": maxf(0, float(settings.get("duration", 180)) - elapsed), "path": last_path, "color": path_color, "claim": claim_revision}
+	return {"board": rules.board.duplicate(), "scores": scores.duplicate(), "hints": hints.duplicate(), "generation": generation, "remaining": rules.remaining, "time": maxf(0, float(settings.get("duration", 180)) - elapsed), "path": last_path, "color": path_color, "claim": claim_revision, "end_msec": end_msec}
 
 func render_game() -> void:
 	if view.is_empty():
@@ -150,4 +157,48 @@ func receive_private(data: Dictionary) -> void:
 		return
 	hint_cells = data.get("hint", [])
 	hint_age = 2.0
+	render_game()
+
+## Initial layout uses publish once; subsequent reliable events contain only this action's result.
+func _send_change(change: Dictionary) -> void:
+	var error: Error = api.net.broadcast(&"matching/change", change)
+	if error != OK:
+		party_stop(&"publication_failed")
+		api.fail("matching_change", error_string(error))
+
+func _message(sender: Dictionary, topic: StringName, payload: Variant) -> void:
+	if topic != &"matching/change":
+		super._message(sender, topic, payload)
+		return
+	if not running or sender.peer_id != 1 or not payload is Dictionary or view.is_empty():
+		return
+	if not payload.get("id") is String or not view.scores.has(payload.id):
+		return
+	if payload.get("kind") == "hint":
+		if not payload.get("hints") is int or payload.hints < 0:
+			return
+		view.hints[payload.id] = payload.hints
+	elif payload.get("kind") == "pair":
+		if not payload.get("claim") is int or payload.claim <= view.claim or not payload.get("cells") is Array or payload.cells.size() != 2:
+			return
+		if not payload.get("score") is int or not payload.get("remaining") is int or not payload.get("generation") is int or not payload.get("path") is Array or not payload.get("color") is Color:
+			return
+		for cell: Variant in payload.cells:
+			if not cell is int or cell < 0 or cell >= 80:
+				return
+		if payload.has("board"):
+			if not payload.board is Array or payload.board.size() != 80:
+				return
+			for cell: Variant in payload.board:
+				if not cell is int or cell < 0 or cell > 10:
+					return
+			view.board = payload.board.duplicate()
+		else:
+			for cell: int in payload.cells:
+				view.board[cell] = 0
+		view.scores[payload.id] = payload.score
+		for key: String in ["claim", "remaining", "generation", "path", "color"]:
+			view[key] = payload[key]
+	else:
+		return
 	render_game()
