@@ -1,11 +1,14 @@
 [gd_scene format=3 uid="uid://b0npp1fpk87mg"]
 
+[ext_resource type="PackedScene" path="res://games/minigame/gp_matching/ui/round_pages.tscn" id="protocol_pages"]
+
 [ext_resource type="Script" uid="uid://df7y3ytjk2jwo" path="res://games/minigame/gp_matching/game.gd" id="1"]
 [ext_resource type="PackedScene" path="res://games/protocols/godot_party_default_protocol/ranked_round.tscn" id="round"]
 
 [ext_resource type="PackedScene" path="res://games/minigame/gp_matching/board_3d.tscn" id="board"]
 
-[node name="Game" unique_id=1945190554 instance=ExtResource("round")]
+[node name="Game" unique_id=1945190554 instance=ExtResource("round") node_paths=PackedStringArray("pages")]
+pages = NodePath("ProtocolPages")
 layout_mode = 3
 anchors_preset = 15
 grow_horizontal = 2
@@ -49,3 +52,6 @@ theme_override_colors/font_color = Color(0.141,0.294,0.259,1)
 theme_override_colors/font_outline_color = Color(0.961,0.949,0.914,1)
 theme_override_constants/outline_size = 5
 text = "左键：选择 / 配对 · 再次点击取消\n右键：放下选中的棋子\n中键：提示（剩余 3 次）\nEsc：菜单"
+
+[node name="ProtocolPages" parent="." instance=ExtResource("protocol_pages")]
+unique_name_in_owner = true
