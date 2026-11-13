@@ -1,51 +1,11 @@
 {
-  "manifest_version": 2,
-  "core_api_major": 6,
-  "package_version": "1.0.15",
-  "id": "gp_matching",
   "name": "GodotPartyDefault · 连连看",
   "kind": "minigame",
-  "supported_systems": [
-    "windows"
-  ],
-  "entry": "game.tscn",
-  "player_counts": [
-    1,
-    2,
-    3,
-    4,
-    5,
-    6,
-    7,
-    8
-  ],
-  "tags": [
-    "original"
-  ],
+  "package_version": "0.0.1",
+  "framework_version": "0.0.1",
+  "remark": "",
   "dependencies": {
-    "godot_party_default_protocol": "1.0.14",
-    "godot_party_default_ui": "1.0.3"
-  },
-  "adapters": [
-    {
-      "id": "standard",
-      "protocol": {
-        "id": "godot_party_default_protocol",
-        "api_major": 1,
-        "min_api_minor": 0
-      },
-      "entry": "adapter.gd"
-    }
-  ],
-  "config_schema": "settings.gd",
-  "introduction": "1–8 人的 3D 连连看：点击同类水果，最多转弯两次。单人限时清盘，多人争抢同一棋盘，每对 1 分，同分并列。",
-  "localization": {
-    "supported_locales": [
-      "zh_Hans"
-    ],
-    "fallback_locale": "zh_Hans",
-    "translations": {
-      "zh_Hans": "i18n/zh_Hans.po"
-    }
+    "godot_party_default_protocol": "~0.0.1",
+    "godot_party_default_ui": "~0.0.1"
   }
 }

@@ -1,4 +1,9 @@
 extends "res://games/protocols/godot_party_default_protocol/ranked_round.gd"
+
+## Content-owned gameplay rules, independent of package compatibility.
+static func party_definition() -> Dictionary:
+	return {"player_counts": [1, 2, 3, 4, 5, 6, 7, 8], "tags": ["original"]}
+
 ## One shared board: host serializes tile claims; only a shuffle invalidates unrelated claims.
 const Rules: Script = preload("res://games/minigame/gp_matching/matching_rules.gd")
 const Cursors: PackedScene = preload("res://games/assets/godot_party_default_ui/player_cursors.tscn")
