@@ -10,7 +10,7 @@ metadata={
 
 [deps]
 
-source_file="res://games/minigame/gp_matching/assets/icons/10_blueberry.svg"
+source_file="res://games/minigame/GP_matching/assets/icons/10_blueberry.svg"
 dest_files=["res://.godot/imported/10_blueberry.svg-40ef5c95d51eb26247ccf30de59bea71.ctex"]
 
 [params]

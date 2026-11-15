@@ -30,3 +30,6 @@ msgstr "消除对数"
 
 msgid "error.hint_send"
 msgstr "发送私密提示失败：{error}"
+
+msgid "package.name"
+msgstr "GodotPartyDefault · 连连看"

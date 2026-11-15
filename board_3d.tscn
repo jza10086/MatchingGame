@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://cnw04ca5tbdtf"]
 
-[ext_resource type="Script" uid="uid://clb0a6tj7x6bu" path="res://games/minigame/gp_matching/board_3d.gd" id="1_lmwk3"]
-[ext_resource type="PackedScene" path="res://games/minigame/gp_matching/matching_piece.tscn" id="piece"]
+[ext_resource type="Script" uid="uid://clb0a6tj7x6bu" path="res://games/minigame/GP_matching/board_3d.gd" id="1_lmwk3"]
+[ext_resource type="PackedScene" path="res://games/minigame/GP_matching/matching_piece.tscn" id="piece"]
 
 [sub_resource type="Environment" id="Environment_bl86d"]
 background_mode = 1

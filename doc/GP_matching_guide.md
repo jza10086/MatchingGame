@@ -20,5 +20,5 @@
 
 未带 `res://` 的源码路径以本包根目录为基准。
 
-- [M13 连连看　B　依赖 G01](gp_matching_development.md)
-- [gp_matching_source](gp_matching_source.md)
+- [M13 连连看　B　依赖 G01](GP_matching_development.md)
+- [GP_matching_source](GP_matching_source.md)

@@ -10,7 +10,7 @@ metadata={
 
 [deps]
 
-source_file="res://games/minigame/gp_matching/assets/icons/05_grape.svg"
+source_file="res://games/minigame/GP_matching/assets/icons/05_grape.svg"
 dest_files=["res://.godot/imported/05_grape.svg-b2c99f767b947033db0fe762b5ab880f.ctex"]
 
 [params]
