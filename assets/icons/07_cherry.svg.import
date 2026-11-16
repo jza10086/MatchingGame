@@ -3,7 +3,7 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://dis7q560ts0ex"
-path="res://.godot/imported/07_cherry.svg-b520566ec8186ca0518a5277b8f7f45d.ctex"
+path="res://.godot/imported/07_cherry.svg-c9397b923d049b44b94684ab1beb5747.ctex"
 metadata={
 "vram_texture": false
 }
@@ -11,7 +11,7 @@ metadata={
 [deps]
 
 source_file="res://games/minigame/GP_matching/assets/icons/07_cherry.svg"
-dest_files=["res://.godot/imported/07_cherry.svg-b520566ec8186ca0518a5277b8f7f45d.ctex"]
+dest_files=["res://.godot/imported/07_cherry.svg-c9397b923d049b44b94684ab1beb5747.ctex"]
 
 [params]
 
